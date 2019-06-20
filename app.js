@@ -24,7 +24,6 @@ for (let i = 0; i < 9; i++) {
             checkWinner($status);
         }
     })
-
 }
 
 if (1 - playerOrder === 0) putMark(Math.round(Math.random() * 8), 1 - playerOrder);
@@ -53,10 +52,10 @@ function checkWinner(label) {
 function isWin(board, player) {
     for (let winPosIdx = 0; winPosIdx < winningPositions.length; winPosIdx++) {
         let result = true;
+
         for (let i = 0; i < 3; i++) {
             result = result && (board[winningPositions[winPosIdx][i]] === player);
         }
-
         if (result === true) return true;
     }
     return false;
@@ -91,8 +90,8 @@ function strategy(board, player) {
     let bestMove = { index: moves[0].index, score: moves[0].score };
     const isAIPlayer = (player === 1 - playerOrder);
 
-    for (let i = 0; i < moves.length; i++) { 
-        if (isAIPlayer&&(moves[i].score > bestMove.score) ||  !isAIPlayer && (moves[i].score < bestMove.score)) {
+    for (let i = 0; i < moves.length; i++) {
+        if (isAIPlayer && (moves[i].score > bestMove.score) || !isAIPlayer && (moves[i].score < bestMove.score)) {
             bestMove = moves[i];
         }
     }
