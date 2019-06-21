@@ -69,3 +69,7 @@ body {
     background: rgba(255, 230, 230, 55%);
     cursor: pointer;
 }
+
+.win {
+    background: rgba(255, 255, 255, 100%);
+}

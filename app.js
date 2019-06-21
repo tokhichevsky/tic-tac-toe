@@ -37,14 +37,25 @@ function moveAI() {
     if (!isGameEnd) putMark(strategy(virtualBoard, 1 - playerOrder).index, 1 - playerOrder);
 }
 
+function highlightWinPos(winPos) {
+    winPos.forEach(x => {
+        $cells[x].classList.add("win");
+    });
+}
+
 function checkWinner(label) {
-    if (isWin(virtualBoard, playerOrder)) {
+    const playerStatus = isWin(virtualBoard, playerOrder);
+    const aiStatus = isWin(virtualBoard, 1- playerOrder);
+    if (playerStatus.status) {
         isGameEnd = true;
+        highlightWinPos(playerStatus.winPos);
         label.innerText = "Player won!";
-    } else if (isWin(virtualBoard, 1 - playerOrder)) {
+    } else if (aiStatus.status) {
         isGameEnd = true;
+        highlightWinPos(aiStatus.winPos);
         label.innerText = "Player lost!";
     } else if (virtualBoard.filter(x => x === -1).length === 0) {
+        isGameEnd = true;
         label.innerText = "Friendship won!";
     }
 }
@@ -56,9 +67,9 @@ function isWin(board, player) {
         for (let i = 0; i < 3; i++) {
             result = result && (board[winningPositions[winPosIdx][i]] === player);
         }
-        if (result === true) return true;
+        if (result === true) return {status: true, winPos: winningPositions[winPosIdx]};
     }
-    return false;
+    return {status: false};
 }
 
 
@@ -72,9 +83,9 @@ function strategy(board, player) {
         return prev;
     }, []);
 
-    if (isWin(board, 1 - playerOrder)) {
+    if (isWin(board, 1 - playerOrder).status) {
         return { score: 100 };
-    } else if (isWin(board, playerOrder)) {
+    } else if (isWin(board, playerOrder).status) {
         return { score: -100 };
     } else if (availPos.length === 0) {
         return { score: 0 };
